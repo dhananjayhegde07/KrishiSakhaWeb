@@ -55,8 +55,6 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ socket, jwt }) => {
 
 
         socket.on("msg", async (data) => {
-            console.log(data);
-
             // Update Users List
             setUsers((prevUsers) => {
                 const existingUser = prevUsers.find((i) => i.chatId === data.id);
@@ -67,7 +65,6 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ socket, jwt }) => {
                 }
                 return [existingUser, ...prevUsers.filter((i) => i.chatId !== existingUser.chatId)];
             });
-            console.log(users);
             
             // Update Messages if Chat is Active
             console.log(current);

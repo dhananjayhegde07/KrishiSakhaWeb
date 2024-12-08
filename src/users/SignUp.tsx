@@ -1,8 +1,9 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { apiSerice } from '../utils/Axios';
+import { useNavigate } from 'react-router-dom';
 
 function SignUp() {
     const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ function SignUp() {
         district: ''
     });
 
+    const navigate = useNavigate()
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleChange = (name: string, value: string) => {
@@ -39,7 +41,10 @@ function SignUp() {
                 }
             })
             
-        } catch { }
+
+        } catch(e) { 
+
+        }
     };
 
     return (
