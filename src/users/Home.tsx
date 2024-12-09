@@ -96,8 +96,113 @@ const HomeSection = () => (
     </div>
 );
 
-const InsightsSection = () => (
-    <div className="container mx-auto p-6">
+const InsightsSection = () => {
+    const [language,setLanguage] = useState<"en" | "kn">("en")
+    
+    const articles = {
+        en: {
+            soilTips: [
+                "Use organic matter such as compost and manure to enrich the soil.",
+                "Practice crop rotation to maintain nutrient balance in the soil.",
+                "Use cover crops like clover to fix nitrogen and improve soil structure.",
+                "Apply organic fertilizers like bone meal and fish emulsion.",
+                "Avoid overworking the soil to maintain its natural structure.",
+                "Regularly test soil to understand its nutrient needs.",
+                "Use mulching to retain moisture and prevent soil erosion.",
+                "Minimize the use of chemical pesticides and fertilizers.",
+                "Incorporate green manures such as legumes to enhance soil fertility.",
+                "Implement no-till or reduced tillage methods to protect soil structure."
+            ],
+            sustainableTips: [
+                "Use water-efficient irrigation methods like drip irrigation.",
+                "Avoid overuse of chemical fertilizers and pesticides.",
+                "Promote biodiversity by planting a variety of crops and maintaining natural habitats.",
+                "Focus on soil conservation to prevent erosion and degradation.",
+                "Utilize organic farming methods to reduce reliance on synthetic chemicals.",
+                "Practice integrated pest management (IPM) to control pests sustainably.",
+                "Use renewable energy sources like solar power for farm operations.",
+                "Reduce food waste by optimizing crop production and distribution.",
+                "Implement agroforestry practices to create diverse ecosystems.",
+                "Support fair trade practices and local farming communities."
+            ],
+            pestControlTips: [
+                "Identify pests early using regular crop monitoring.",
+                "Use natural predators like ladybugs to control pest populations.",
+                "Apply organic pest control methods such as neem oil.",
+                "Practice crop rotation to break pest cycles.",
+                "Introduce resistant crop varieties to minimize pest damage.",
+                "Use pheromone traps to monitor and control pest outbreaks.",
+                "Use physical barriers such as netting to prevent pest access.",
+                "Implement trap cropping to divert pests away from main crops.",
+                "Reduce pesticide use and focus on precision application techniques.",
+                "Educate farmers about proper pest management strategies and biological control methods."
+            ],
+            irrigationTips: [
+                "Use drip irrigation to deliver water directly to plant roots.",
+                "Implement rainwater harvesting systems to reduce reliance on mains water.",
+                "Use soaker hoses to water plants evenly and deeply.",
+                "Consider sprinkler irrigation for large areas with even water distribution.",
+                "Invest in moisture sensors to automate irrigation based on soil moisture levels.",
+                "Water early in the morning or late in the evening to minimize evaporation.",
+                "Group plants with similar water requirements together for efficient irrigation.",
+                "Mulch around plants to retain moisture and reduce water usage.",
+                "Avoid over-watering to prevent root rot and water wastage.",
+                "Monitor weather forecasts and adjust irrigation schedules accordingly."
+            ],
+            climateChangeTips: [
+                "Understand how shifting weather patterns impact crop growth cycles.",
+                "Adapt to climate variability by diversifying crop production.",
+                "Implement water conservation practices to cope with changing rainfall patterns.",
+                "Invest in drought-resistant crop varieties to withstand extreme weather events.",
+                "Use precision agriculture technologies to optimize resource use.",
+                "Consider agroforestry to increase climate resilience and reduce emissions.",
+                "Promote sustainable land management practices to preserve soil health.",
+                "Educate farmers about the impacts of climate change on agriculture.",
+                "Advocate for policies that support climate adaptation and sustainable farming.",
+                "Monitor carbon footprints and implement measures to reduce them on farms."
+            ]
+        },
+        kn: {
+            soilTips: [
+                "ಮಣ್ಣನ್ನು ಶಕ್ತಿಗೊಳಿಸಲು ಕಂಬಳ ಮತ್ತು manure ಹೋಳಿಕೆಗಳು ಹಾಗು ಅವುಗಳನ್ನು ಬಳಸುವಂತೆ ಮಾಡಿ.",
+                "ಮಣ್ಣಿನ ಪೋಷಕಾಂಶ ಸಮತೋಲನವನ್ನು ಕಾಪಾಡಲು ಬೆಳೆ ಬದಲಾವಣೆ ಅಭ್ಯಾಸವನ್ನು ಮಾಡಿ.",
+                "ನೈಟ್ರೋಜನ್ ಸುಧಾರಿಸಲು ಹೊತ್ತಿಟ್ಟ ಹುಲ್ಲುಗಳನ್ನು ಬಳಸಿ.",
+                "ಆರ್ಗ್ಯಾನಿಕ್ ಪೋಷಕಾಂಶಗಳನ್ನು, ಹಲ್ಲುಹಣ್ಣು ಮತ್ತು ಮೀನು ಹೊಟ್ಟೆಗಳನ್ನು ಹಾಕಿ.",
+                "ಮಣ್ಣನ್ನು ಹೆಚ್ಚಾಗಿ ಕೆಲಸ ಮಾಡದಂತೆ ನಿಗದಿಸು.",
+                "ಮಣ್ಣಿನ ಪೋಷಕಾಂಶಗಳನ್ನು ತಿಳಿಯಲು ನಿಯಮಿತವಾಗಿ ಪರೀಕ್ಷೆ ಮಾಡಿ.",
+                "ಆಗಾಗಾಗ ಹೋಳುಹಚ್ಚಿದಾಗ, ಮಣ್ಣಿನ ತಲುಪಲು ನೀರು ಉಳಿಯುವಂತೆ ಮಾಡಿ.",
+                "ರಾಸಾಯನಿಕ ಪೋಷಕಾಂಶಗಳನ್ನು ಕಡಿಮೆ ಮಾಡಿ, ಪ್ರಯೋಗ ಹಾಗೂ ಜೈವಿಕ ರಾಸಾಯನಿಕವನ್ನು ಬಳಸಲು ಪ್ರಯತ್ನಿಸಿ.",
+                "ಹರಿತ ಸುಧಾರಣೆಯನ್ನು ಹೆಚ್ಚು ಆಮದು ಮಾಡಿದರೆ, ಉತ್ಪನ್ನಗಳನ್ನು ಬಿಡು ಮಾಡಬಹುದು.",
+                "ಮಣ್ಣಿನ ಬದಲಿ ಮಾಡಲು ನಾವು ಸಹಾಯ ಮಾಡುತ್ತೇವೆ."
+            ],
+            sustainableTips: [
+                "ಹೇಮವನ್ನು ಗಮನದಿಂದ ನಿದಾನಗೊಳ್ಳಲು ಉತ್ಪತ್ತಿಯನ್ನು ಮಾಡಲು ಅದನ್ನು ಹೊಸ ಸಮಯದಲ್ಲಿ ಬಳಸಿ.",
+                "ಮೀನುಗಳ ಹೋಲುಗಳಿಗೆ ದರವನ್ನು ಸುಧಾರಿಸಲು ಪರಿಗಣಿಸಿ.",
+                "ಪೂರ್ಣ ಅಭ್ಯಾಸದ ಕಡೆ ಸೇರಿದಷ್ಟೊಳು, ಷರತ್ ನಡೆಸಲು ನಮ್ಮ ಪುನಶ್ಚೇ ಸಾದ್ಯಾಯು.",
+                "ನಮಗೆ ಹೊಂದಿಕೆ ನೀಡಿದ ವಿಮರ್ಶಿಯು ವಾಯ್ಮುಡ್ಡ ಅನುಕೂಲತೆಗೆ ಮನಮಾಡುತ್ತದೆ."
+            ],
+            pestControlTips: [
+                "ಹುಳುಗಳನ್ನು ಮೊದಲೇ ಗುರುತಿಸಿ, ನಿಯಮಿತವಾಗಿ ಬೆಳೆಗಳನ್ನು ಗಮನಿಸಿ.",
+                "ಹುಳುಗಳನ್ನು ನಿಯಂತ್ರಿಸಲು ladybugs వంటి ಪ್ರಕೃತಿ ಶತ್ರುಗಳನ್ನು ಬಳಸಿ.",
+                "ನೀಮ್ ಎಣ್ಣೆಂತಹ ಜೈವಿಕ ಪests ನಿಯಂತ್ರಣ ವಿಧಾನಗಳನ್ನು ಅನ್ವಯಿಸಿ.",
+                "ಹುಳು ಚಕ್ರಗಳನ್ನು ಮುರಿಯಲು ಬೆಳೆ ಬದಲಾವಣೆಯನ್ನು ಅನುಸರಿಸಿ.",
+                "ಹುಳು ಹಾನಿಯನ್ನು ಕಡಿಮೆ ಮಾಡಲು ಪ್ರತಿರೋಧಕ ಬೆಳೆ ವೈವಿಧ್ಯಗಳನ್ನು ಪರಿಚಯಿಸಿ.",
+                "ಹುಳುಗಳ ಉತ್ಕ್ರಾಂತಿಯನ್ನು ಗಮನಿಸಲು ಫೆರೋಮೋನ್ ಟ್ರ್ಯಾಪ್‌ಗಳನ್ನು ಬಳಸಿ.",
+                "ಹುಳುಗಳು ಪ್ರವೇಶಿಸದಂತೆ ಶಾರದೆಯಲ್ಲಿ ದರವನ್ನು ಕಡಿಮೆ ಮಾಡಲು ಶಕ್ತಿಯಾದ ಪ್ರಾಥಮಿಕಗಳನ್ನು ಬಳಸಿ."
+            ],
+            irrigationTips: [
+                "ಹಣ್ಣುಗಳಿಗೆ ನೀರನ್ನು ನೇರವಾಗಿ ನೀಡಲು ಡ್ರಿಪ್ ನೀರು ಹಾಕುವ ಸಾಧನಗಳನ್ನು ಬಳಸಿ.",
+                "ಮುಗಿಯುವ ನೀರು ಬಳಕೆ ಕಡಿಮೆ ಮಾಡಲು ಮಳೆಯ ನೀರಿನ ಸಂಗ್ರಹಣೆ ವ್ಯವಸ್ಥೆಗಳನ್ನು ಅನುಸರಿಸಿ.",
+                "ಮನೆಮದ್ದು ತುಂಬಾ ದಯವಿಟ್ಟು ನಿಯಂತ್ರಿತ ನೀರಾವರಿ ಮಾಡಿ.",
+                "ಹೂವುಗಳಿಗೆ ಹಾವರೊಂದು ಮೀನು ಎಂದು ತುಳಿದು ಮಾಡಲಾಗುತ್ತದೆ."
+            ],
+            climateChangeTips: [
+                "ಹವಾಮಾನ ವೈವಿಧ್ಯ ಮತ್ತು ಬಾಳಿಕೆ ಬಗ್ಗೆ ಹೆಚ್ಚು ಗಮನ ನೀಡಲು ಪ್ರಯೋಜನವನ್ನು ವಿವರಿಸಿ.",
+                "ನಾವು ಬದಲಾವಣೆ ಮಾಡಬಹುದು."
+            ]
+        }
+    };
+    return (<div className="container mx-auto p-6">
         {/* Header */}
         <div className="text-center mb-10">
             <h2 className="text-4xl font-bold text-green-800 mb-4">Insights: Learn and Grow</h2>
@@ -187,22 +292,32 @@ const InsightsSection = () => (
 
         {/* Articles Section */}
         <div>
-            <h3 className="text-2xl font-semibold text-green-800 mb-4">Farming Articles</h3>
+            <div className="flex items-center justify-between">
+                <h3 className="text-2xl font-semibold text-green-800 mb-4">Farming Articles</h3>
+                <div className="flex  items-center ">
+                    <button
+                        onClick={() => setLanguage("en")}
+                        className={`px-4 py-2 rounded-md ${language === "en" ? "bg-green-600 text-white" : "bg-white text-green-600"}`}
+                    >
+                        English
+                    </button>
+                    <button
+                        onClick={() => setLanguage("kn")}
+                        className={`px-4 py-2 rounded-md ${language === "kn" ? "bg-green-600 text-white" : "bg-white text-green-600"}`}
+                    >
+                        ಕನ್ನಡ
+                    </button>
+
+                </div>
+            </div>
             <div className="space-y-6">
                 {/* Article 1 */}
                 <div className="bg-green-50 p-6 rounded-lg shadow-lg hover:bg-green-100 transition ease-in-out duration-300">
                     <h4 className="text-xl font-semibold text-green-800 mb-2">How to Improve Soil Fertility</h4>
                     <ul className="text-green-700 space-y-2">
-                        <li>1. Use organic matter such as compost and manure to enrich the soil.</li>
-                        <li>2. Practice crop rotation to maintain nutrient balance in the soil.</li>
-                        <li>3. Use cover crops like clover to fix nitrogen and improve soil structure.</li>
-                        <li>4. Apply organic fertilizers like bone meal and fish emulsion.</li>
-                        <li>5. Avoid overworking the soil to maintain its natural structure.</li>
-                        <li>6. Regularly test soil to understand its nutrient needs.</li>
-                        <li>7. Use mulching to retain moisture and prevent soil erosion.</li>
-                        <li>8. Minimize the use of chemical pesticides and fertilizers.</li>
-                        <li>9. Incorporate green manures such as legumes to enhance soil fertility.</li>
-                        <li>10. Implement no-till or reduced tillage methods to protect soil structure.</li>
+                        {articles[language].soilTips.map((tip, index) => (
+                            <li key={index}>{tip}</li>
+                        ))}
                     </ul>
                 </div>
 
@@ -210,16 +325,9 @@ const InsightsSection = () => (
                 <div className="bg-green-50 p-6 rounded-lg shadow-lg hover:bg-green-100 transition ease-in-out duration-300">
                     <h4 className="text-xl font-semibold text-green-800 mb-2">Sustainable Farming Practices</h4>
                     <ul className="text-green-700 space-y-2">
-                        <li>1. Use water-efficient irrigation methods like drip irrigation.</li>
-                        <li>2. Avoid overuse of chemical fertilizers and pesticides.</li>
-                        <li>3. Promote biodiversity by planting a variety of crops and maintaining natural habitats.</li>
-                        <li>4. Focus on soil conservation to prevent erosion and degradation.</li>
-                        <li>5. Utilize organic farming methods to reduce reliance on synthetic chemicals.</li>
-                        <li>6. Practice integrated pest management (IPM) to control pests sustainably.</li>
-                        <li>7. Use renewable energy sources like solar power for farm operations.</li>
-                        <li>8. Reduce food waste by optimizing crop production and distribution.</li>
-                        <li>9. Implement agroforestry practices to create diverse ecosystems.</li>
-                        <li>10. Support fair trade practices and local farming communities.</li>
+                    {articles[language].sustainableTips.map((tip, index) => (
+                            <li key={index}>{tip}</li>
+                    ))}
                     </ul>
                 </div>
 
@@ -227,16 +335,9 @@ const InsightsSection = () => (
                 <div className="bg-green-50 p-6 rounded-lg shadow-lg hover:bg-green-100 transition ease-in-out duration-300">
                     <h4 className="text-xl font-semibold text-green-800 mb-2">Dealing with Pest Infestation</h4>
                     <ul className="text-green-700 space-y-2">
-                        <li>1. Identify pests early using regular crop monitoring.</li>
-                        <li>2. Use natural predators like ladybugs to control pest populations.</li>
-                        <li>3. Apply organic pest control methods such as neem oil.</li>
-                        <li>4. Practice crop rotation to break pest cycles.</li>
-                        <li>5. Introduce resistant crop varieties to minimize pest damage.</li>
-                        <li>6. Use pheromone traps to monitor and control pest outbreaks.</li>
-                        <li>7. Use physical barriers such as netting to prevent pest access.</li>
-                        <li>8. Implement trap cropping to divert pests away from main crops.</li>
-                        <li>9. Reduce pesticide use and focus on precision application techniques.</li>
-                        <li>10. Educate farmers about proper pest management strategies and biological control methods.</li>
+                    {articles[language].pestControlTips.map((tip, index) => (
+                            <li key={index}>{tip}</li>
+                        ))}
                     </ul>
                 </div>
 
@@ -244,16 +345,9 @@ const InsightsSection = () => (
                 <div className="bg-green-50 p-6 rounded-lg shadow-lg hover:bg-green-100 transition ease-in-out duration-300">
                     <h4 className="text-xl font-semibold text-green-800 mb-2">Best Irrigation Techniques</h4>
                     <ul className="text-green-700 space-y-2">
-                        <li>1. Use drip irrigation to deliver water directly to plant roots.</li>
-                        <li>2. Implement rainwater harvesting systems to reduce reliance on mains water.</li>
-                        <li>3. Use soaker hoses to water plants evenly and deeply.</li>
-                        <li>4. Consider sprinkler irrigation for large areas with even water distribution.</li>
-                        <li>5. Invest in moisture sensors to automate irrigation based on soil moisture levels.</li>
-                        <li>6. Water early in the morning or late in the evening to minimize evaporation.</li>
-                        <li>7. Group plants with similar water requirements together for efficient irrigation.</li>
-                        <li>8. Mulch around plants to retain moisture and reduce water usage.</li>
-                        <li>9. Avoid over-watering to prevent root rot and water wastage.</li>
-                        <li>10. Monitor weather forecasts and adjust irrigation schedules accordingly.</li>
+                    {articles[language].irrigationTips.map((tip, index) => (
+                            <li key={index}>{tip}</li>
+                        ))}
                     </ul>
                 </div>
 
@@ -261,16 +355,9 @@ const InsightsSection = () => (
                 <div className="bg-green-50 p-6 rounded-lg shadow-lg hover:bg-green-100 transition ease-in-out duration-300">
                     <h4 className="text-xl font-semibold text-green-800 mb-2">Climate Change and Farming</h4>
                     <ul className="text-green-700 space-y-2">
-                        <li>1. Understand how shifting weather patterns impact crop growth cycles.</li>
-                        <li>2. Adapt to climate variability by diversifying crop production.</li>
-                        <li>3. Implement water conservation practices to cope with changing rainfall patterns.</li>
-                        <li>4. Invest in drought-resistant crop varieties to withstand extreme weather events.</li>
-                        <li>5. Use precision agriculture technologies to optimize resource use.</li>
-                        <li>6. Consider agroforestry to increase climate resilience and reduce emissions.</li>
-                        <li>7. Promote sustainable land management practices to preserve soil health.</li>
-                        <li>8. Educate farmers about the impacts of climate change on agriculture.</li>
-                        <li>9. Advocate for policies that support climate adaptation and sustainable farming.</li>
-                        <li>10. Monitor carbon footprints and implement measures to reduce them on farms.</li>
+                    {articles[language].climateChangeTips.map((tip, index) => (
+                            <li key={index}>{tip}</li>
+                        ))}
                     </ul>
                 </div>
             </div>
@@ -278,6 +365,8 @@ const InsightsSection = () => (
     </div>
 );
 
+}
+    
 
 
 const DetectSection = () => {
@@ -455,16 +544,16 @@ const RecommendSection = () => {
         });
     };
 
-    const handleAuto=async()=>{
+    const handleAuto = async () => {
         setLoading(true);
         try {
             // Replace with actual API call
             const response = await apiSerice.post("predict/crop", {
-                params:false,
-                data:formData
+                params: false,
+                data: formData
             });
             console.log(response);
-            let data =plainToInstance(CropRecommend,response.data.recommend)
+            let data = plainToInstance(CropRecommend, response.data.recommend)
             setResult(data);
         } catch (error) {
             console.error("Error fetching recommendation:", error);
@@ -478,11 +567,11 @@ const RecommendSection = () => {
         try {
             // Replace with actual API call
             const response = await apiSerice.post("predict/crop", {
-                params:true,
-                data:formData
+                params: true,
+                data: formData
             });
             console.log(response);
-            let data =plainToInstance(CropRecommend,response.data.recommend)
+            let data = plainToInstance(CropRecommend, response.data.recommend)
             setResult(data);
         } catch (error) {
             console.error("Error fetching recommendation:", error);

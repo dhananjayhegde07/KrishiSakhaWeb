@@ -36,18 +36,22 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ socket, jwt }) => {
     const [current, setCurrent] = useState<Users | null>(null)
     const [messages, setMessages] = useState<Message[]>([])
     const {usernameHolder,setUsernameHolder}=useUser()
+    const currentRef = useRef<Users | null>(null);
+
+    useEffect(() => {
+        currentRef.current = current;
+    }, [current]);
     useEffect(() => {
 
         socket.on("inactive",async(data)=>{
+            console.log("data");
+            
             setUsers((prev)=>{
                 return prev.filter((val)=> val.chatId != data)
             })
-            console.log(data);
-            console.log(current);
             
-            
-            if(current?.chatId==data){
-                setCurrent(null)
+            if(currentRef.current?.chatId==data){
+                setCurrent((prev)=>{return null})
                 setMessages([])
                 db.clear(data)
             }
@@ -61,17 +65,15 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ socket, jwt }) => {
                 console.log(existingUser);
                 
                 if (!existingUser) {
+                
                     return [new Users({ username: data.message.from, chatId: data.id }), ...prevUsers];
                 }
                 return [existingUser, ...prevUsers.filter((i) => i.chatId !== existingUser.chatId)];
             });
             
             // Update Messages if Chat is Active
-            console.log(current);
             
-            if (data.id === current?.chatId) {
-                console.log("here");
-                
+            if (data.id === currentRef.current?.chatId) {
                 setMessages((prevMessages) => [...prevMessages, plainToInstance(Message, data.message)]);
             }
 
@@ -90,6 +92,11 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ socket, jwt }) => {
         }
     }, []);
 
+    useEffect(()=>{
+        console.log(current);
+        
+    },[current])
+
     async function sendMessage(msg:string) {
         if(!current) return;
         const obj={id:current.chatId,
@@ -104,7 +111,9 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ socket, jwt }) => {
 
     const getUsers = async () => {
         await db.clearAll()
-        setCurrent(null)
+        setCurrent((prev)=>{
+            return null
+        })
         setMessages([])
         setDone(false)
         try {
@@ -116,12 +125,9 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ socket, jwt }) => {
                 // console.log(data)
                 const users_arr: Users[] = []
                 for (let i of data as any) {
-                    console.log(i)
                     users_arr.push(new Users({ username: i.username, chatId: i.id }))
                     addMessage(i.id, [...i.messages])
                 }
-                console.log(users_arr);
-
                 setUsers(users_arr)
             }
 
@@ -194,7 +200,7 @@ const Screen: React.FC<screenProps> = ({ users, getUsers, current, setCurrunt, m
                             setMessages(await getMessages(val.chatId))
                             console.log(val);
                             
-                            setCurrunt(val)
+                            setCurrunt((prev)=>{return val})
                         }} style={{alignItems:"center",borderRadius:"10px"}}> {val.username} </p>
                     })}
                 </ul>
