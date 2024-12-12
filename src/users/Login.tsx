@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { apiSerice, setJwt, setUsername, username } from '../utils/Axios';
 import { log } from 'console';
 import { useNavigate } from 'react-router-dom';
+import { url } from 'inspector';
 
 const UserLoginPage = () => {
   const [email, setEmail] = useState('');
@@ -38,7 +39,9 @@ const UserLoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-green-100">
+    <div className="min-h-screen flex items-center justify-center" style={{
+      backgroundImage:"url('/background.webp')"
+    }}>
       {/* Main Container */}
       <div className="bg-white shadow-lg rounded-lg p-6 md:w-1/3 w-11/12">
         {/* Logo */}

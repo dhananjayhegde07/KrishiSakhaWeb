@@ -97,8 +97,8 @@ const HomeSection = () => (
 );
 
 const InsightsSection = () => {
-    const [language,setLanguage] = useState<"en" | "kn">("en")
-    
+    const [language, setLanguage] = useState<"en" | "kn">("en")
+
     const articles = {
         en: {
             soilTips: [
@@ -325,9 +325,9 @@ const InsightsSection = () => {
                 <div className="bg-green-50 p-6 rounded-lg shadow-lg hover:bg-green-100 transition ease-in-out duration-300">
                     <h4 className="text-xl font-semibold text-green-800 mb-2">Sustainable Farming Practices</h4>
                     <ul className="text-green-700 space-y-2">
-                    {articles[language].sustainableTips.map((tip, index) => (
+                        {articles[language].sustainableTips.map((tip, index) => (
                             <li key={index}>{tip}</li>
-                    ))}
+                        ))}
                     </ul>
                 </div>
 
@@ -335,7 +335,7 @@ const InsightsSection = () => {
                 <div className="bg-green-50 p-6 rounded-lg shadow-lg hover:bg-green-100 transition ease-in-out duration-300">
                     <h4 className="text-xl font-semibold text-green-800 mb-2">Dealing with Pest Infestation</h4>
                     <ul className="text-green-700 space-y-2">
-                    {articles[language].pestControlTips.map((tip, index) => (
+                        {articles[language].pestControlTips.map((tip, index) => (
                             <li key={index}>{tip}</li>
                         ))}
                     </ul>
@@ -345,7 +345,7 @@ const InsightsSection = () => {
                 <div className="bg-green-50 p-6 rounded-lg shadow-lg hover:bg-green-100 transition ease-in-out duration-300">
                     <h4 className="text-xl font-semibold text-green-800 mb-2">Best Irrigation Techniques</h4>
                     <ul className="text-green-700 space-y-2">
-                    {articles[language].irrigationTips.map((tip, index) => (
+                        {articles[language].irrigationTips.map((tip, index) => (
                             <li key={index}>{tip}</li>
                         ))}
                     </ul>
@@ -355,7 +355,7 @@ const InsightsSection = () => {
                 <div className="bg-green-50 p-6 rounded-lg shadow-lg hover:bg-green-100 transition ease-in-out duration-300">
                     <h4 className="text-xl font-semibold text-green-800 mb-2">Climate Change and Farming</h4>
                     <ul className="text-green-700 space-y-2">
-                    {articles[language].climateChangeTips.map((tip, index) => (
+                        {articles[language].climateChangeTips.map((tip, index) => (
                             <li key={index}>{tip}</li>
                         ))}
                     </ul>
@@ -363,10 +363,10 @@ const InsightsSection = () => {
             </div>
         </div>
     </div>
-);
+    );
 
 }
-    
+
 
 
 const DetectSection = () => {
@@ -543,6 +543,8 @@ const RecommendSection = () => {
             [e.target.name]: e.target.value,
         });
     };
+    const [showModal, setShowModal] = useState(false);
+    const toggleModal = () => setShowModal(!showModal);
 
     const handleAuto = async () => {
         setLoading(true);
@@ -581,12 +583,47 @@ const RecommendSection = () => {
     };
 
     return (
-        <div className="p-6 bg-white shadow-lg rounded-lg space-y-6">
+        <div className="container mx-auto p-6 relative">
             {/* Section Header */}
-            <h3 className="text-2xl font-semibold text-green-800">
-                Crop Recommendation
-            </h3>
+            <div className="flex items-center justify-between">
+                <h3 className="text-2xl font-semibold text-green-800">
+                    Crop Recommendation
+                </h3>
+                <button
+                    onClick={toggleModal}
+                    className="bg-white rounded-full p-3 shadow-lg hover:bg-gray-200 transition"
+                    style={{ width: '50px', height: '50px' }}
+                >
+                    {/* Info Icon as Image */}
+                    <img
+                        src="/info-circle-svgrepo-com.svg" // Replace with the path to your SVG image file
+                        alt="Info Icon"
+                        className="w-6 h-6 text-blue-600" // Adjust size if needed
+                    />
+                </button>
+            </div>
+            {showModal && (
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white p-6 rounded-lg w-1/3 shadow-lg">
+                        <h3 className="text-xl font-bold text-center">Information</h3>
+                        <ul className="list-disc pl-6 pt-3 text-gray-800">
+                            <li><strong>Nitrogen (N):</strong> Essential for leafy growth. Input range: <strong>0–300</strong>.</li>
+                            <li><strong>Phosphorus (P):</strong> Supports root development. Input range: <strong>0–150</strong>.</li>
+                            <li><strong>Potassium (K):</strong> Enhances overall plant health. Input range: <strong>0–200</strong>.</li>
+                            <li><strong>Rainfall:</strong> Crucial for soil moisture. Input range: <strong>200–1000 mm/year</strong>.</li>
+                            <li><strong>Humidity:</strong> Impacts plant transpiration. Input range: <strong>30%–80%</strong>.</li>
+                            <li><strong>Temperature:</strong> Affects growth and yield. Input range: <strong>10°C–35°C</strong>.</li>
+                        </ul>
 
+                        <button
+                            onClick={toggleModal}
+                            className="mt-4 w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
             {/* Input Fields */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {[
@@ -619,7 +656,7 @@ const RecommendSection = () => {
             </div>
 
             {/* Submit Button */}
-            <div className="mt-6 flex">
+            <div className="mt-6 flex items-center justify-around">
                 <button
                     className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition"
                     onClick={handleSubmit}
@@ -667,10 +704,40 @@ const FertilizerSection = () => {
     };
 
     // Simple logic to recommend fertilizers based on N, P, K values (can be replaced with an API call)
-
-
+    const [showModal, setShowModal] = useState(false);
+    const toggleModal = () => setShowModal(!showModal);
     return (
-        <div className="container mx-auto p-6">
+        <div className="container mx-auto p-6 relative">
+            <button
+                onClick={toggleModal}
+                className="absolute top-4 right-4 bg-white rounded-full p-3 shadow-lg hover:bg-gray-200 transition"
+                style={{ width: '50px', height: '50px' }}
+            >
+                {/* Info Icon as Image */}
+                <img
+                    src="/info-circle-svgrepo-com.svg" // Replace with the path to your SVG image file
+                    alt="Info Icon"
+                    className="w-6 h-6 text-blue-600" // Adjust size if needed
+                />
+            </button>
+            {showModal && (
+                <div className="fixed inset-0 bg-gray-500 bg-opacity-50 flex justify-center items-center">
+                    <div className="bg-white p-6 rounded-lg w-1/3 shadow-lg">
+                        <h3 className="text-xl font-bold text-center">Information</h3>
+                        <ul className="list-disc pl-6 text-gray-800">
+                            <li><strong>Nitrogen (N):</strong> Essential for leafy growth. Input range: <strong>0–200</strong>.</li>
+                            <li><strong>Phosphorus (P):</strong> Supports root development. Input range: <strong>0–150</strong>.</li>
+                            <li><strong>Potassium (K):</strong> Enhances overall plant health. Input range: <strong>0–200</strong>.</li>
+                        </ul>
+                        <button
+                            onClick={toggleModal}
+                            className="mt-4 w-full bg-red-500 text-white py-2 rounded-md hover:bg-red-600 transition"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
             <div className="text-center mb-6">
                 <h2 className="text-4xl font-bold text-green-800 mb-4">Fertilizer Recommendation</h2>
                 <p className="text-xl text-green-600">
@@ -756,11 +823,13 @@ const HomePage: React.FC = () => {
 
     useEffect(() => {
         if (username == '') {
-            navigate("/")
+            navigate("/login")
         }
     })
     return (
-        <div className="bg-green-100 min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col" style={{
+            backgroundImage: "url('/background.webp')"
+        }}>
             {/* Top Navigation Bar */}
             <nav className="bg-green-500 text-white p-4 flex justify-between items-center shadow-lg">
                 <h1 className="text-xl font-bold">{username}</h1>
@@ -788,7 +857,7 @@ const HomePage: React.FC = () => {
 
             {/* Footer */}
             <footer className="bg-green-500 text-white text-center p-4">
-                <p>© 2024 Krishi App. All rights reserved.</p>
+                <p>© 2024 KrishiSakha. All rights reserved.</p>
             </footer>
         </div>
     );

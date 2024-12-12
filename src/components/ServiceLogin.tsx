@@ -21,7 +21,9 @@ const LoginPage: React.FC<{setJwt: React.Dispatch<React.SetStateAction<string>>}
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-green-100">
+    <div className="flex h-screen items-center justify-center" style={{
+      backgroundImage:"url('/background.webp')"
+    }}>
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-green-700 text-center mb-6">
           Welcome Back

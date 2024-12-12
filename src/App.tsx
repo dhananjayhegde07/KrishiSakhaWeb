@@ -8,12 +8,14 @@ import UserLoginPage from './users/Login';
 import SignUp from './users/SignUp';
 import OTPVerification from './users/OtpScreen';
 import HomePage from './users/Home';
+import FirstPage from './components/FirstPage';
 
 function App() {
   return (
-    <BrowserRouter>
+      <BrowserRouter>
         <Routes>
-            <Route path='/' element={<UserLoginPage/>}></Route>
+            <Route path='/' element={<FirstPage/>} ></Route>
+            <Route path='/login' element={<UserLoginPage/>}></Route>
             <Route path='/service' element={<Service></Service>}/>
             <Route path='/register' element={<SignUp></SignUp>}/>
             <Route path='/otp' element={<OTPVerification></OTPVerification>}/>

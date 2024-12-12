@@ -92,11 +92,6 @@ const ChatScreen: React.FC<ChatScreenProps> = ({ socket, jwt }) => {
         }
     }, []);
 
-    useEffect(()=>{
-        console.log(current);
-        
-    },[current])
-
     async function sendMessage(msg:string) {
         if(!current) return;
         const obj={id:current.chatId,

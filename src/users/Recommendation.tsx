@@ -14,7 +14,7 @@ const CropRec: React.FC<{ crop: CropRecommend; language: string }> = ({
   }
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-lg space-y-6">
+    <div className="p-6 rounded-lg space-y-6">
       {/* Crop Name and Scientific Name */}
       <h3 className="text-2xl font-semibold text-green-800">
         {crop.name} ({crop.scientificName})

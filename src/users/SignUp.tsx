@@ -48,7 +48,9 @@ function SignUp() {
     };
 
     return (
-        <div className="min-h-screen flex justify-center items-center bg-green-50">
+        <div className="min-h-screen flex justify-center items-center" style={{
+            backgroundImage:"url('/background.webp')"
+          }}>
             <div className="w-full max-w-md p-6 bg-white shadow-lg rounded-lg">
                 <h2 className="text-3xl font-semibold text-center text-green-700 mb-6">Sign Up</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
