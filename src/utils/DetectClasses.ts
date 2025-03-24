@@ -20,4 +20,11 @@ class DetectRes {
     disease: DiseaseModel = new DiseaseModel();
 };
 
-export {DetectRes,DiseaseAction,DiseaseModel}
+
+class PestRes {
+    insect : string = "";
+    pest : string[] = [];
+    confidence : number = 0.0;
+}
+
+export {DetectRes,DiseaseAction,DiseaseModel,PestRes}

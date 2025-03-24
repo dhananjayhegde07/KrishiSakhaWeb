@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { apiSerice, username } from "../utils/Axios"
-import { DetectRes } from "../utils/DetectClasses";
+import { DetectRes, PestRes } from "../utils/DetectClasses";
 import DetectionOutput from "./Detection";
 import { Navigate, useNavigate } from "react-router-dom";
 import { log } from "console";
@@ -9,6 +9,7 @@ import { FertilizerRecommendModel } from "../utils/FertilizerClsses";
 import FertilizerRec from "./Fertilizer"
 import { CropRecommend } from "../utils/RecommendationClases";
 import CropRec from "./Recommendation";
+import PestOutput from "./PestOutput";
 
 interface NavItem {
     title: string;
@@ -474,6 +475,89 @@ const DetectSection = () => {
     );
 }
 
+const PestSection = () => {
+    const [file, setFile] = useState<File | null>(null);
+    const [preview, setPreview] = useState<string | null>(null);
+    const [result, setResult] = useState<PestRes | null>(null);
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            setFile(file);
+            setPreview(URL.createObjectURL(file));
+        }
+    };
+
+    const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+        const file = event.dataTransfer.files[0];
+        if (file) {
+            setFile(file);
+            setPreview(URL.createObjectURL(file));
+        }
+    };
+
+    const getResults = async () => {
+        let form = new FormData();
+        if (file) form.append('image', file);
+        try {
+            let res = await apiSerice.post("/predict/pest", form, {
+                headers: { 'Content-Type': "multipart/form-data" }
+            });
+            setResult(plainToInstance(PestRes, res.data, {}));
+        } catch {}
+    };
+
+    const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+    };
+
+    return (
+        <div className="container mx-auto p-6">
+            <div className="text-center mb-10">
+                <h2 className="text-4xl font-bold text-green-800 mb-4">Crop Disease Detection</h2>
+                <p className="text-xl text-green-600">Upload a crop image to detect potential diseases.</p>
+            </div>
+
+            <div className="flex flex-col items-center justify-center space-y-6">
+                <div
+                    className="border-2 border-dashed border-green-500 p-10 w-full max-w-lg text-center rounded-lg cursor-pointer hover:border-green-700 transition"
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                >
+                    <h3 className="text-xl font-semibold text-green-800">Drag and Drop or Select an Image</h3>
+                    <p className="text-green-600 mb-4">Click or drag your crop image here</p>
+                    <input type="file" accept="image/*" onChange={handleFileChange} className="hidden" id="fileInput" />
+                    <label htmlFor="fileInput" className="bg-green-600 text-white p-2 rounded-md cursor-pointer">
+                        Choose File
+                    </label>
+                </div>
+
+                {preview && (
+                    <div className="flex flex-col items-center">
+                        <h3 className="text-xl font-semibold text-green-800 mb-4">Image Preview</h3>
+                        <img src={preview} alt="Crop Preview" className="w-52 h-auto rounded-lg" />
+                        <p className="text-green-600 mt-4">This is the uploaded crop image.</p>
+                    </div>
+                )}
+
+                {file && (
+                    <div className="mt-6">
+                        <button
+                            className="bg-green-600 text-white p-3 rounded-md hover:bg-green-700 transition"
+                            onClick={getResults}
+                        >
+                            Detect Disease
+                        </button>
+                    </div>
+                )}
+                {result && <PestOutput detectionResult={result} />}
+            </div>
+        </div>
+    );
+};
+
+
 
 const RecommendSection = () => {
     const [formData, setFormData] = useState({
@@ -769,6 +853,7 @@ const HomePage: React.FC = () => {
         { title: "Detect", component: <DetectSection />, icon: "🔍" },
         { title: "Recommend", component: <RecommendSection />, icon: "💡" },
         { title: "Fertilizer", component: <FertilizerSection />, icon: "🌱" },
+        {title:"Pestiside",component:<PestSection></PestSection>,icon :""}
     ];
 
     const currentComponent = navItems.find((item) => item.title === activeSection)?.component;
